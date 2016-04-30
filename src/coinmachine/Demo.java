@@ -6,13 +6,14 @@ import java.util.Scanner;
 /**
  * Console dialog for inserting coins into Coin machine.
  * @author James Brucker
+ *  edited main by Rakkan Tiasakul 5810546013
  *
  */
 public class Demo {
 	// create a java.util.Scanner object for use in all methods
 	private static Scanner console = new Scanner( System.in );
-	
-	
+
+
 	/** run the user interface */
 	public void insertDialog(CoinMachine machine) {
 		System.out.println("Coin Machine has a capacity of "+ machine.getCapacity());
@@ -36,48 +37,46 @@ public class Demo {
 					}
 				}
 			}
-			
-			
+
+
 		} while( ! machine.isFull() );
-		
+
 		displayMachineStatus(machine);
-		
+
 	}
-	
+
 	/** Show the number of coins and their total value. */
 	private void displayMachineStatus(CoinMachine machine) {
 		// CLUDGE: how to get the currency?  Look at the first coin in machine.
 		String currency = "";
 		if (machine.getCount() > 0) currency = machine.getCoins().get(0).getCurrency();
-//		System.out.printf("Machine contains %d coins and value %d %s\n",
-//				machine.getCount(), machine.getBalance(), currency);	
+		//		System.out.printf("Machine contains %d coins and value %d %s\n",
+		//				machine.getCount(), machine.getBalance(), currency);	
 		if (machine.isFull()) System.out.println("Machine is FULL.");
 	}
-	
+
 	/**
 	 * Run a console demo.
 	 * @param args not used
 	 */
-//	public static void main(String[] args) {
-//		final int capacity = 10;  // how many coins the machine can hold
-//		CoinMachine machine = new CoinMachine( capacity );
-//		Demo demo = new Demo();
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					CoinMachineObserver frame = new CoinMachineObserver(machine);
-//					machine.addObserver(frame);
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		//TODO add observers
-//		
-//		demo.insertDialog(machine);
-//		
-//	}
+	public static void main (String [] args){
+		final int capacity = 10;  // how many coins the machine can hold
+		CoinMachine machine = new CoinMachine( capacity );
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CoinMachineObserver machineRunner = new CoinMachineObserver(machine);
+					AcceptCoinObserver acceptCoinCounter =  new AcceptCoinObserver(machine);
+					machine.addObserver(machineRunner);
+					machine.addObserver(acceptCoinCounter);
+					machineRunner.setVisible(true);
+					acceptCoinCounter.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }
 
 

@@ -1,6 +1,7 @@
 package coinmachine;
 /**
  * A Coin represents metalic money with a value.
+ * @author Rakkan Tiasakul 5810546013
  */
 
 
@@ -80,7 +81,9 @@ public class Coin  implements Comparable<Coin> {
 	public String toString() {
 		return value+"-"+currency;
 	}
-
+	/**
+	 *  This is compareTo method. Use for compare if the values are equal or not.
+	 */
 	@Override
 	public int compareTo(Coin o) {
 		// TODO Auto-generated method stub

@@ -17,9 +17,17 @@ import javax.swing.JTextField;
 import javax.swing.JProgressBar;
 import javax.swing.ImageIcon;
 import java.awt.FlowLayout;
-
+/**
+ * 
+ * @author Rakkan Tiasakul 5810546013
+ * This class is UI of CoinMachine. It shows the balance and the status of coin machine after the user click on the coins.
+ * CoinMachineObserver extends JFrame and uses Observer to be an interface.
+ */
 public class CoinMachineObserver extends JFrame implements Observer  {
 
+	/**
+	 * These are constructors.
+	 */
 	private JButton onebaht;
 	private JButton fivebaht;
 	private JButton tenbaht;
@@ -31,11 +39,14 @@ public class CoinMachineObserver extends JFrame implements Observer  {
 	private JLabel balanceNumber;
 	private JPanel panel_2;
 	private CoinMachine coinmachine = new CoinMachine (10);
-	
+
+	/**
+	 * This is the window of UI.
+	 */
 	public void initComponent() {
 		ActionListener coin = new selectedButton();
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.CENTER);
 		panel_1.setLayout(new GridLayout(0, 1, 0, 0));
@@ -63,7 +74,7 @@ public class CoinMachineObserver extends JFrame implements Observer  {
 		panel_2.setLayout(new GridLayout(1, 0, 0, 0));
 		panel_2.setBorder(BorderFactory.createTitledBorder("Insert Money"));
 
-		
+
 		onebaht = new JButton();
 		onebaht.setIcon(new ImageIcon(CoinMachineObserver.class.getResource("/images/1baht.png")));
 		onebaht.addActionListener(new selectedButton());
@@ -79,20 +90,29 @@ public class CoinMachineObserver extends JFrame implements Observer  {
 		tenbaht.addActionListener(new selectedButton());
 		panel_2.add(tenbaht);
 
-
 	}
+	/**
+	 * This is update method, using observer.
+	 * @param to change the current balance by calling getBalance() from CoinMachine class.
+	 * to check status of Coin Machine if it's full or not by calling getCount() from CoinMachine class.
+	 * Then set text.
+	 */
 	public void update(Observable obj1,Object obj2){
 		if (obj1 instanceof CoinMachine){
 			CoinMachine test1 = (CoinMachine) obj1;
 			System.out.println("The balance is : " + test1.getBalance());
 			progressBar_1.setValue(test1.getCount());
 			balanceNumber.setText(Integer.toString(coinmachine.getBalance()));
+
 		}
 	}
-
-
-	class selectedButton implements ActionListener{
-
+	
+	/**
+	 * 
+	 * This is interface of ActionListener. Using for clicking on the JButton and then it will get the value of that coin.
+	 *
+	 */
+	class selectedButton implements ActionListener{	
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
@@ -103,16 +123,18 @@ public class CoinMachineObserver extends JFrame implements Observer  {
 			}else if (tenbaht.isFocusOwner()){
 				coinmachine.insert(new Coin(10));
 			}
-	
+
 		}
 	}
-
+	/**
+	 * 
+	 * @param coinMachine , for run UI.
+	 */
+	
 	public  CoinMachineObserver(CoinMachine coinMachine){
 		this.coinmachine = coinMachine;
 		this.setTitle ("Coin Machine");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initComponent();
 	}
-
-	
 }
